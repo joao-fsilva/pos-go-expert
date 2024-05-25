@@ -43,7 +43,8 @@ func main() {
 
 	f, err := os.Create("cotacao.txt")
 	if err != nil {
-		panic(err)
+		log.Println(err)
+		return
 	}
 
 	output := fmt.Sprintf("Dólar: %s\n", cotacao.Cotacao)
