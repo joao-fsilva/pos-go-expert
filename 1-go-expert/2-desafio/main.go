@@ -47,7 +47,7 @@ func main() {
 			}
 
 			fmt.Println(result["api"])
-			fmt.Println(result["d	ata"])
+			fmt.Println(result["data"])
 			return
 
 		case <-time.After(time.Second * 1):
