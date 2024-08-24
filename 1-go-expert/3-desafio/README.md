@@ -19,7 +19,7 @@ Inclua um README.md com os passos a serem executados no desafio e a porta em que
 
    ```bash
    git clone https://github.com/joao-fsilva/pos-go-expert.git
-   cd 1-go-expert/3-desafio
+   cd pos-go-expert/1-go-expert/
 
 2. **Instalar as dependências:**
 
