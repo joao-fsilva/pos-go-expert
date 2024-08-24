@@ -33,6 +33,7 @@ Inclua um README.md com os passos a serem executados no desafio e a porta em que
    
 4. **Subir a aplicação:**
      ```bash
+    cd cmd/ordersystem/
     go run main.go wire_gen.go
 
 5. **Executar o Endpoint REST (GET /order):**
