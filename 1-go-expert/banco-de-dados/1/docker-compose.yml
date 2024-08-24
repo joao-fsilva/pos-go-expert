@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: goexpert
+      MYSQL_USER: goexpert
+      MYSQL_PASSWORD: goexpert
+    ports:
+      - "3306:3306"
