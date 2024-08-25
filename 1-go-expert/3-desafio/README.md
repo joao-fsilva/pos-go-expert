@@ -38,7 +38,7 @@ Inclua um README.md com os passos a serem executados no desafio e a porta em que
 
 5. **Executar o Endpoint REST (GET /order):**
    - A porta utilizada é 8000.
-   - Acessar: http://localhost:8000/order
+   - Acessar: http://localhost:8000/orders
    - Se prefefir, acessar api/list_orders.http e execute a requisição.
 
  
