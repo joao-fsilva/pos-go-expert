@@ -13,7 +13,7 @@ Esta listagem precisa ser feita com:
 Para a criação do banco de dados, utilize o Docker (Dockerfile / docker-compose.yaml), com isso ao rodar o comando docker compose up tudo deverá subir, preparando o banco de dados.
 Inclua um README.md com os passos a serem executados no desafio e a porta em que a aplicação deverá responder em cada serviço.
 
-## Passos para Executar o Projeto
+## Passos para executar o desafio
 
 1. **Clone o Repositório:**
 
