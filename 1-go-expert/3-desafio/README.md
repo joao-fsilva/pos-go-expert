@@ -36,20 +36,22 @@ Inclua um README.md com os passos a serem executados no desafio e a porta em que
     cd cmd/ordersystem/
     go run main.go wire_gen.go
 
-5. **Executar o Endpoint REST (GET /order):**
+5. **Cadastrar order:**
+   - acessar api/create_order.http e execute a requisição.
+
+6. **Executar o Endpoint REST (GET /orders):**
    - A porta utilizada é 8000.
    - Acessar: http://localhost:8000/orders
    - Se prefefir, acessar api/list_orders.http e execute a requisição.
 
- 
-6. **Service ListOrders com GRPC:**
+7. **Service ListOrders com GRPC:**
    - A porta utilizada é 50051.
    - Executar os comandos abaixo:
      ```bash
       evans -r repl
       call ListOrders
 
-7. **Query ListOrders GraphQL:**
+8. **Query ListOrders GraphQL:**
    - A porta utilizada é 8080.
    - Acessar: http://localhost:8080
    - Executar a seguinte query:
