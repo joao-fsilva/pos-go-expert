@@ -1,7 +1,6 @@
 package usecase
 
 import (
-	"fmt"
 	"github.com/devfullcycle/20-CleanArch/internal/entity"
 	"github.com/devfullcycle/20-CleanArch/pkg/events"
 )
@@ -38,7 +37,6 @@ func NewCreateOrderUseCase(
 }
 
 func (c *CreateOrderUseCase) Execute(input OrderInputDTO) (OrderOutputDTO, error) {
-	fmt.Print("create")
 	order := entity.Order{
 		ID:    input.ID,
 		Price: input.Price,
