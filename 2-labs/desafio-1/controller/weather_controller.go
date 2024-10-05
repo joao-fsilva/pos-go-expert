@@ -36,7 +36,7 @@ func (wc WeatherController) Handle(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		switch {
 		case errors.Is(err, entity.ErrInvalidZipCode):
-			writeErrorResponse(w, http.StatusBadRequest, err.Error())
+			writeErrorResponse(w, http.StatusUnprocessableEntity, err.Error())
 			return
 		case errors.Is(err, usecase.ErrZipCodeNotFound):
 			writeErrorResponse(w, http.StatusNotFound, err.Error())
