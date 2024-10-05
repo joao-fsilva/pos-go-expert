@@ -43,7 +43,7 @@ Deverá ser realizado o deploy no Google Cloud Run.
 
 ## Entrega
 - O código-fonte completo da implementação.
-- Testes automatizados demonstrando o funciona
+- Testes automatizados demonstrando o funcionamento.
 
 ## Passos para executar o desafio
 
@@ -53,36 +53,40 @@ Deverá ser realizado o deploy no Google Cloud Run.
    git clone https://github.com/joao-fsilva/pos-go-expert.git
    cd pos-go-expert/2-labs/desafio-1/
 
-2. **Configurar o .env dentro de cmd/weather-zip-code:**
+2. **Configurar o .env.test:**
+    - dentro de pos-go-expert/2-labs/desafio-1:
+       ```bash
+       cp .env.test.example .env.test
+
+3. **Configurar o .env dentro de cmd/weather-zip-code:**
     - dentro de pos-go-expert/2-labs/desafio-1/cmd/weather-zip-code:
+       ```bash
+       cp .env.example .env
 
-    ```bash
-    cp .env.example .env
-
-3. **Configurar o ambiente:**
+4. **Configurar o ambiente:**
    - dentro de pos-go-expert/2-labs/desafio-1:
        ```bash
        docker build -t weather-zip-code .
        docker run -d -p 8080:8080 --name weather-zip-code -v $(pwd):/app weather-zip-code
        docker exec -it weather-zip-code bash
 
-4. **Rodar os testes:**
+5. **Rodar os testes:**
     - dentro do container, em /app:
         ```bash
          go test ./...
 
-5. **Subir a aplicação**
+6. **Subir a aplicação**
     - dentro do container, em /app/cmd/weather-zip-code:
         ```bash
         go run main.go
       
-6. **Executar sucesso:**
+7. **Executar sucesso:**
     - Acessar: http://localhost:8080/weather?zipcode=07011020
 
-7. **Executar CEP inválido:**
+8. **Executar CEP inválido:**
     - Acessar: http://localhost:8080/weather?zipcode=070110200
 
-8. **Executar CEP inexistente:**
+9. **Executar CEP inexistente:**
     - Acessar: http://localhost:8080/weather?zipcode=00000000
 
 
