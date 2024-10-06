@@ -89,4 +89,13 @@ Deverá ser realizado o deploy no Google Cloud Run.
 9. **Executar CEP inexistente:**
     - Acessar: http://localhost:8080/weather?zipcode=00000000
 
+10. **Executar sucesso (Google Cloud Run):**
+    - Acessar: https://labs-desafio-1-479650233002.us-central1.run.app/weather?zipcode=07011020
+
+11. **Executar CEP inválido (Google Cloud Run):**
+    - Acessar: https://labs-desafio-1-479650233002.us-central1.run.app/weather?zipcode=070110200
+
+12. **Executar CEP inexistente:**
+    - Acessar: https://labs-desafio-1-479650233002.us-central1.run.app/weather?zipcode=00000000
+
 

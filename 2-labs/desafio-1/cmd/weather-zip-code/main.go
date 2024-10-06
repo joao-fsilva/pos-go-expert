@@ -11,12 +11,14 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
+	if err := godotenv.Load(); err != nil {
+		log.Printf("No .env file found, continuing with environment variables: %v", err)
 	}
 
 	apiKey := os.Getenv("API_KEY")
+	if apiKey == "" {
+		log.Fatal("API_KEY environment variable not set")
+	}
 
 	zipCodeService := infra.NewZipCodeServiceViaCep()
 	weatherService := infra.NewWeatherServiceWeatherApi(apiKey)

@@ -33,7 +33,7 @@ func (w *WeatherServiceWeatherApi) GetWeatherInCelsiusByCity(city string) (float
 	log.Printf("Info: checking the weather of the city of %s", city)
 
 	encodedCity := url.QueryEscape(city)
-	urlStr := "https://api.weatherapi.com/v1/current.json?q=" + encodedCity + "&key=" + w.apiKey
+	urlStr := "http://api.weatherapi.com/v1/current.json?q=" + encodedCity + "&key=" + w.apiKey
 
 	res, err := http.Get(urlStr)
 	defer res.Body.Close()
