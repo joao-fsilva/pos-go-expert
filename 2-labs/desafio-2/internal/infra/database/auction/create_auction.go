@@ -24,13 +24,14 @@ type AuctionEntityMongo struct {
 	Timestamp   int64                           `bson:"timestamp"`
 }
 type AuctionRepository struct {
-	Collection   *mongo.Collection
-	openAuctions map[string]auction_entity.AuctionStatus
+	Collection        *mongo.Collection
+	auctionsAutoClose map[string]auction_entity.AuctionStatus
 }
 
 func NewAuctionRepository(database *mongo.Database) *AuctionRepository {
 	return &AuctionRepository{
-		Collection: database.Collection("auctions"),
+		Collection:        database.Collection("auctions"),
+		auctionsAutoClose: make(map[string]auction_entity.AuctionStatus),
 	}
 }
 
@@ -88,10 +89,12 @@ func (ar *AuctionRepository) autoClose(ctx context.Context) error {
 			continue
 		}
 
-		_, okStatus := ar.openAuctions[auctionEntity.Id]
+		_, okStatus := ar.auctionsAutoClose[auctionEntity.Id]
 		if okStatus {
 			continue
 		}
+
+		ar.auctionsAutoClose[auctionEntity.Id] = auction_entity.Active
 
 		timer := time.NewTimer(timeUntilClose)
 
@@ -101,6 +104,7 @@ func (ar *AuctionRepository) autoClose(ctx context.Context) error {
 			if err != nil {
 				logger.Error(fmt.Sprintf("Failed to close auction %s automatically", auction.Id), err)
 			}
+			delete(ar.auctionsAutoClose, auction.Id)
 		}(auctionEntity)
 	}
 
