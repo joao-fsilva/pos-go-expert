@@ -9,6 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"os"
+	"sync"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -26,12 +27,14 @@ type AuctionEntityMongo struct {
 type AuctionRepository struct {
 	Collection        *mongo.Collection
 	auctionsAutoClose map[string]auction_entity.AuctionStatus
+	autoCloseMutex    *sync.Mutex
 }
 
 func NewAuctionRepository(database *mongo.Database) *AuctionRepository {
 	return &AuctionRepository{
 		Collection:        database.Collection("auctions"),
 		auctionsAutoClose: make(map[string]auction_entity.AuctionStatus),
+		autoCloseMutex:    &sync.Mutex{},
 	}
 }
 
@@ -53,7 +56,10 @@ func (ar *AuctionRepository) CreateAuction(
 		return internal_error.NewInternalServerError("Error trying to insert auction")
 	}
 
+	ar.autoCloseMutex.Lock()
 	err = ar.autoClose(ctx)
+	ar.autoCloseMutex.Unlock()
+
 	if err != nil {
 		return nil
 	}
@@ -71,6 +77,11 @@ func getAuctionInterval() time.Duration {
 	return duration
 }
 
+func calculateAuctionEndTime(auctionEntity auction_entity.Auction) time.Duration {
+	auctionEndTime := auctionEntity.Timestamp.Add(getAuctionInterval())
+	return time.Until(auctionEndTime)
+}
+
 func (ar *AuctionRepository) autoClose(ctx context.Context) error {
 	openAuctions, err := ar.FindOpenAuctions(ctx)
 	if err != nil {
@@ -78,8 +89,7 @@ func (ar *AuctionRepository) autoClose(ctx context.Context) error {
 	}
 
 	for _, auctionEntity := range openAuctions {
-		auctionEndTime := auctionEntity.Timestamp.Add(getAuctionInterval())
-		timeUntilClose := time.Until(auctionEndTime)
+		timeUntilClose := calculateAuctionEndTime(auctionEntity)
 
 		if timeUntilClose <= 0 {
 			err := ar.closeAuction(ctx, auctionEntity)
