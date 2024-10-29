@@ -1,0 +1,21 @@
+version: '3'
+services:
+  goapp2:
+    container_name: goapp2
+    build:
+      context: ./serviceb
+      dockerfile: Dockerfile.prod
+    ports:
+      - "8080:8080"
+
+  goapp:
+    container_name: goapp
+    build:
+      context: ./servicea
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - SERVICEB_URL=http://goapp2:8080/
+    depends_on:
+      - goapp2
