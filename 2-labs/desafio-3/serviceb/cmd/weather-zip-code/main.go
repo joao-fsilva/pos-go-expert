@@ -93,7 +93,7 @@ func main() {
 	httpTracer := infra.NewHttpTracer("serviceb")
 
 	zipCodeService := infra.NewZipCodeServiceViaCep(httpTracer)
-	weatherService := infra.NewWeatherServiceWeatherApi(apiKey)
+	weatherService := infra.NewWeatherServiceWeatherApi(apiKey, httpTracer)
 
 	app := usecase.NewGetWeatherByZipCode(zipCodeService, weatherService)
 

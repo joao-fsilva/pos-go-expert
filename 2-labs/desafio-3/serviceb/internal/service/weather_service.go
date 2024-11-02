@@ -1,5 +1,7 @@
 package service
 
+import "context"
+
 type WeatherService interface {
-	GetWeatherInCelsiusByCity(city string) (float64, error)
+	GetWeatherInCelsiusByCity(ctx context.Context, city string) (float64, error)
 }

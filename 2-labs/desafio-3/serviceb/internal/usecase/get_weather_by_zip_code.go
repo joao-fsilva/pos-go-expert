@@ -50,7 +50,7 @@ func (g *GetWeatherByZipCode) Execute(ctx context.Context, input GetWeatherByZip
 		return output, ErrZipCodeNotFound
 	}
 
-	weather, err := g.weatherService.GetWeatherInCelsiusByCity(city)
+	weather, err := g.weatherService.GetWeatherInCelsiusByCity(ctx, city)
 	if err != nil {
 		return output, err
 	}
