@@ -114,7 +114,7 @@ func main() {
 		ctx, span := tracer.Start(ctx, "chamada serviceb")
 		defer span.End()
 
-		time.Sleep(time.Millisecond * 3)
+		time.Sleep(time.Second * 3)
 
 		url := os.Getenv("SERVICEB_URL") + "weather?zipcode=" + reqParams.CEP
 
