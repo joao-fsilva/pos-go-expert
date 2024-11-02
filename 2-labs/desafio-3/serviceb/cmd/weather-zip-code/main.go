@@ -20,7 +20,9 @@ func main() {
 		log.Fatal("API_KEY environment variable not set")
 	}
 
-	zipCodeService := infra.NewZipCodeServiceViaCep()
+	httpTracer := infra.NewHttpTracer("serviceb")
+
+	zipCodeService := infra.NewZipCodeServiceViaCep(httpTracer)
 	weatherService := infra.NewWeatherServiceWeatherApi(apiKey)
 
 	app := usecase.NewGetWeatherByZipCode(zipCodeService, weatherService)

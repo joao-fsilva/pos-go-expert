@@ -24,6 +24,7 @@ func writeErrorResponse(w http.ResponseWriter, statusCode int, message string) {
 }
 
 func (wc WeatherController) Handle(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
 	w.Header().Set("Content-Type", "application/json")
 
 	zipCode := r.URL.Query().Get("zipcode")
@@ -31,7 +32,7 @@ func (wc WeatherController) Handle(w http.ResponseWriter, r *http.Request) {
 	var dto usecase.GetWeatherByZipCodeDTO
 	dto.ZipCode = zipCode
 
-	output, err := wc.usecase.Execute(dto)
+	output, err := wc.usecase.Execute(ctx, dto)
 
 	if err != nil {
 		switch {

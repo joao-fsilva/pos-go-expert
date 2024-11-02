@@ -1,9 +1,10 @@
 package service
 
 import (
+	"context"
 	"weather-zip-code/internal/entity"
 )
 
 type ZipCodeService interface {
-	GetCityByZipCode(zipCode *entity.ZipCode) (string, error)
+	GetCityByZipCode(ctx context.Context, zipCode *entity.ZipCode) (string, error)
 }

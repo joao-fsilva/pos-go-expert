@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"context"
 	"errors"
 	"weather-zip-code/internal/entity"
 	"weather-zip-code/internal/service"
@@ -31,7 +32,7 @@ func NewGetWeatherByZipCode(zipCodeService service.ZipCodeService, weatherServic
 	}
 }
 
-func (g *GetWeatherByZipCode) Execute(input GetWeatherByZipCodeDTO) (GetWeatherByZipCodeOutputDTO, error) {
+func (g *GetWeatherByZipCode) Execute(ctx context.Context, input GetWeatherByZipCodeDTO) (GetWeatherByZipCodeOutputDTO, error) {
 	output := GetWeatherByZipCodeOutputDTO{}
 
 	zipCode, err := entity.NewZipCode(input.ZipCode)
@@ -40,7 +41,7 @@ func (g *GetWeatherByZipCode) Execute(input GetWeatherByZipCodeDTO) (GetWeatherB
 		return output, err
 	}
 
-	city, err := g.zipCodeService.GetCityByZipCode(zipCode)
+	city, err := g.zipCodeService.GetCityByZipCode(ctx, zipCode)
 	if err != nil {
 		return output, err
 	}

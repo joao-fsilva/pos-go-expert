@@ -1,6 +1,7 @@
 package infra
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"io"
@@ -25,14 +26,19 @@ type ViaCEP struct {
 }
 
 type ZipCodeServiceViaCep struct {
+	httpTracer *HttpTracer
 }
 
-func NewZipCodeServiceViaCep() *ZipCodeServiceViaCep {
-	return &ZipCodeServiceViaCep{}
+func NewZipCodeServiceViaCep(tracer *HttpTracer) *ZipCodeServiceViaCep {
+	return &ZipCodeServiceViaCep{
+		httpTracer: tracer,
+	}
 }
 
-func (z *ZipCodeServiceViaCep) GetCityByZipCode(zipCode *entity.ZipCode) (string, error) {
-	res, err := http.Get("http://viacep.com.br/ws/" + zipCode.ZipCode + "/json/")
+func (z *ZipCodeServiceViaCep) GetCityByZipCode(ctx context.Context, zipCode *entity.ZipCode) (string, error) {
+	log.Printf("Info: checking the city of the zipcode %s", zipCode.ZipCode)
+
+	res, err := z.httpTracer.Get(ctx, "http://viacep.com.br/ws/"+zipCode.ZipCode+"/json/", "chamada viacep")
 	defer res.Body.Close()
 
 	if res.StatusCode != http.StatusOK {
@@ -49,6 +55,8 @@ func (z *ZipCodeServiceViaCep) GetCityByZipCode(zipCode *entity.ZipCode) (string
 
 	var data ViaCEP
 	err = json.Unmarshal(body, &data)
+
+	log.Printf("Info: the city of the zipcode %s is %s", zipCode.ZipCode, data.Localidade)
 
 	return data.Localidade, err
 }
