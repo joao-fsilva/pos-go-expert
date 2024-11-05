@@ -3,52 +3,41 @@ package entity
 import "time"
 
 type Limiter struct {
-	id            string
-	rate          int
-	accessCount   int
-	blockedAt     time.Time
-	blockDuration time.Duration
-	createdAt     time.Time
+	Id            string
+	Rate          int
+	AccessCount   int
+	BlockedAt     time.Time
+	BlockDuration time.Duration
+	CreatedAt     time.Time
 }
 
 func NewLimiter(id string, rate int, blockDuration time.Duration) *Limiter {
 	return &Limiter{
-		id:            id,
-		rate:          rate,
-		accessCount:   0,
-		blockedAt:     time.Time{},
-		blockDuration: blockDuration,
-		createdAt:     time.Now(),
-	}
-}
-
-func Restore(id string, rate int, accessCount int, blockedAt time.Time, blockDuration time.Duration, createdAt time.Time) *Limiter {
-	return &Limiter{
-		id:            id,
-		rate:          rate,
-		accessCount:   accessCount,
-		blockedAt:     blockedAt,
-		blockDuration: blockDuration,
-		createdAt:     createdAt,
+		Id:            id,
+		Rate:          rate,
+		AccessCount:   0,
+		BlockedAt:     time.Time{},
+		BlockDuration: blockDuration,
+		CreatedAt:     time.Now(),
 	}
 }
 
 func (l *Limiter) IncrementAccessCount() error {
-	if l.blockedAt.IsZero() == false {
-		if time.Since(l.blockedAt) < l.blockDuration {
+	if l.BlockedAt.IsZero() == false {
+		if time.Since(l.BlockedAt) < l.BlockDuration {
 			return NewIncrementBlockedError()
 		}
 
 		return NewExpiredLimiterError()
 	}
 
-	if time.Since(l.createdAt) > time.Second {
+	if time.Since(l.CreatedAt) > time.Second {
 		return NewExpiredLimiterError()
 	}
 
-	l.accessCount++
-	if l.accessCount > l.rate {
-		l.blockedAt = time.Now()
+	l.AccessCount++
+	if l.AccessCount > l.Rate {
+		l.BlockedAt = time.Now()
 		return NewIncrementBlockedError()
 	}
 
