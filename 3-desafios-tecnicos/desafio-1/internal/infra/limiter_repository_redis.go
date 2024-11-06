@@ -1,4 +1,4 @@
-package repository
+package infra
 
 import (
 	"context"
@@ -41,7 +41,7 @@ func (r *LimiterRepositoryRedis) Find(id string) (*entity.Limiter, error) {
 	data, err := r.client.Get(r.ctx, id).Result()
 	if err != nil {
 		if errors.Is(err, redis.Nil) {
-			return nil, nil
+			return nil, entity.NewEntityNotFound()
 		}
 		return nil, err
 	}

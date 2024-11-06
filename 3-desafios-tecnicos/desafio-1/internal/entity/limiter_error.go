@@ -22,3 +22,10 @@ func NewIncrementBlockedError() *LimiterError {
 		Err:     "is_blocked",
 	}
 }
+
+func NewEntityNotFound() *LimiterError {
+	return &LimiterError{
+		Message: "your entity was not found.",
+		Err:     "entity_not_found",
+	}
+}
