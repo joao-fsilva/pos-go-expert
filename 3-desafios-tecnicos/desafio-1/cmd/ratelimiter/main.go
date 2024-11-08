@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-redis/redis/v8"
+	"log"
 	"net/http"
 	"ratelimiter/internal/entity"
 	"ratelimiter/internal/infra"
@@ -41,7 +42,9 @@ func RateLimiterMiddleware(app *usecase.RateLimiter) func(http.Handler) http.Han
 				BlockDuration: 1 * time.Minute,
 			}
 
+			log.Print("-------------------------------------------------------------------------------------------")
 			output, err := app.Execute(dto)
+			log.Print("-------------------------------------------------------------------------------------------")
 			if err != nil {
 				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 				return
