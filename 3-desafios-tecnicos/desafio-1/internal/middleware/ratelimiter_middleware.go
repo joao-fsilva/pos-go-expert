@@ -26,7 +26,6 @@ func (m *RateLimiterMiddleware) Handler() func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			apiKey := r.Header.Get("API_KEY")
-			fmt.Println("apikey", apiKey)
 			ip := r.RemoteAddr
 
 			id := ip
@@ -59,8 +58,6 @@ func (m *RateLimiterMiddleware) Handler() func(http.Handler) http.Handler {
 				Rate:          rate,
 				BlockDuration: time.Duration(blockDuration) * time.Minute,
 			}
-
-			fmt.Print(dto)
 
 			log.Print("-------------------------------------------------------------------------------------------")
 			output, err := m.app.Execute(dto)
@@ -96,7 +93,6 @@ func (m *RateLimiterMiddleware) Handler() func(http.Handler) http.Handler {
 
 func parseApiKey(apiKey string) (int, int, error) {
 	parts := strings.Split(apiKey, "_")
-	fmt.Println(parts)
 	if len(parts) < 5 {
 		return 0, 0, fmt.Errorf("invalid API key format")
 	}
