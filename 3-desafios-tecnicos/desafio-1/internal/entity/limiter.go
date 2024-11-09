@@ -35,11 +35,12 @@ func (l *Limiter) IncrementAccessCount() error {
 		return NewExpiredLimiterError()
 	}
 
-	l.AccessCount++
-	if l.AccessCount > l.Rate {
+	if (l.AccessCount + 1) > l.Rate {
 		l.BlockedAt = time.Now()
 		return NewIncrementBlockedError()
 	}
+
+	l.AccessCount++
 
 	return nil
 }

@@ -26,7 +26,7 @@ func (m *RateLimiterMiddleware) Handler() func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			apiKey := r.Header.Get("API_KEY")
-			ip := r.RemoteAddr
+			ip := strings.Split(r.RemoteAddr, ":")[0]
 
 			id := ip
 			rate, err := strconv.Atoi(os.Getenv("RATE"))
