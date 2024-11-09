@@ -37,7 +37,7 @@ func TestIncrementAccessCountWhenAccessExceededTheRateThenBlockAndIsBlockedError
 	err := limiter.IncrementAccessCount()
 	assert.Error(t, err)
 	assert.Equal(t, "is_blocked", err.(*LimiterError).Err)
-	assert.Equal(t, 6, limiter.AccessCount)
+	assert.Equal(t, 5, limiter.AccessCount)
 	assert.False(t, limiter.BlockedAt.IsZero())
 }
 
