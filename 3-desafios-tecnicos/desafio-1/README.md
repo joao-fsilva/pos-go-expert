@@ -64,7 +64,7 @@ Nos dois casos acima, as próximas requisições poderão ser realizadas somente
   - Se a entity (internal/entity/limiter.go) não existe no redis (internal/infra/limiter_repository_redis.go), cria gerando 1 acesso.
     - Na entity, o método IncrementAccessCount lida com as regras de incremento.
   - Se existe e expirou, ou seja, não teve acesso dentro de 1 segundo, o count de acessos será resetado.
-  - Se existe, não expirou mas ultrapassou o limite, realiza o bloqueio pelo tempo parametrizado.
+  - Se existe, não expirou e ultrapassou o limite, então realiza o bloqueio pelo tempo parametrizado.
   - Se existe, não expirou e não ultrapassou o limite, realiza o incremento na quantidade de acessos.
 
 - Sobre este ponto: Crie uma “strategy” que permita trocar facilmente o Redis por outro mecanismo de persistência.
@@ -79,7 +79,8 @@ Nos dois casos acima, as próximas requisições poderão ser realizadas somente
    cd pos-go-expert/3-desafios-tecnicos/desafio-1/
 
 2. **Configurar o .env (opcional, já tem valores default):**
-    - dentro de pos-go-expert/3-desafios-tecnicos/desafio-1/cmd/ratelimiter.go:
+    - Dentro de pos-go-expert/3-desafios-tecnicos/desafio-1/cmd/.env
+    - Caso altere, os testes abaixo terão um comportamento diferente.
 
 3. **Configurar o ambiente:**
     - dentro de pos-go-expert/3-desafios-tecnicos/desafio-1:
