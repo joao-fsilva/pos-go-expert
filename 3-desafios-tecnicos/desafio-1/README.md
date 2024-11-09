@@ -90,11 +90,11 @@ Nos dois casos acima, as próximas requisições poderão ser realizadas somente
 
 4. **Teste por IP (utilizar a ferramenta ApacheBench)**
     - Acessar:  ab -n 1001 -c 1 -k http://localhost:8080/
-    - Esperado: Ter sucesso em 1000 acessos, dar erro no acesso 1001 e bloquear o IP por 1 minuto.
+    - Esperado: Ter sucesso em 1000 acessos (Complete requests), dar erro no acesso 1001 (Non-2xx responses) e bloquear o IP por 1 minuto.
 
 5. **Teste por token (utilizar a ferramenta ApacheBench)**
     - Acessar: ab -n 10 -c 1 -k -H "API_KEY: apikey_rate_5_blockduration_1"  http://localhost:8080/
-    - Esperado: Ter sucesso em 5 acessos, dar erro em 5 acessos e bloquear o token por 1 minuto. 
+    - Esperado: Ter sucesso em 5 acessos (Complete requests), dar erro em 5 acessos (Non-2xx responses) e bloquear o token por 1 minuto. 
 
 6. **Rodar os testes automatizados:**
     - dentro de pos-go-expert/3-desafios-tecnicos/desafio-1:
