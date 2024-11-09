@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	if err := godotenv.Load(".env"); err != nil {
+	if err := godotenv.Load("cmd/ratelimiter/.env"); err != nil {
 		log.Fatal("Error trying to load env variables")
 		return
 	}
