@@ -4,6 +4,7 @@ import (
 	"errors"
 	"log"
 	"ratelimiter/internal/entity"
+	"sync"
 	"time"
 )
 
@@ -20,16 +21,31 @@ type RateLimiterOutputDto struct {
 
 type RateLimiter struct {
 	limiterRepository entity.LimiterRepository
+	isProcessingMap   map[string]*sync.Mutex
+	isProcessingMutex *sync.Mutex
 }
 
 func NewRateLimiter(limiterRepository entity.LimiterRepository) *RateLimiter {
 	return &RateLimiter{
 		limiterRepository: limiterRepository,
+		isProcessingMap:   make(map[string]*sync.Mutex),
+		isProcessingMutex: &sync.Mutex{},
 	}
 }
 
 func (rl *RateLimiter) Execute(dto RateLimiterDto) (RateLimiterOutputDto, error) {
 	log.Printf("Executing rate limiter for ID: %s, Rate: %d, Block Duration: %s", dto.Id, dto.Rate, dto.BlockDuration)
+
+	rl.isProcessingMutex.Lock()
+	mutex, exists := rl.isProcessingMap[dto.Id]
+	if !exists {
+		mutex = &sync.Mutex{}
+		rl.isProcessingMap[dto.Id] = mutex
+	}
+	rl.isProcessingMutex.Unlock()
+
+	mutex.Lock()
+	defer mutex.Unlock()
 
 	e, err := rl.limiterRepository.Find(dto.Id)
 	if err != nil {
