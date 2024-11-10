@@ -15,7 +15,7 @@ Criar um sistema CLI em Go para realizar testes de carga em um serviço web. O u
 - Distribuir os requests de acordo com o nível de concorrência definido.
 - Garantir que o número total de requests seja cumprido.
 
-## Execução do Teste:
+## Geração do relatório:
 
 - Apresentar um relatório ao final dos testes contendo:
     - Tempo total gasto na execução

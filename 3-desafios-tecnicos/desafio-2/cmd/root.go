@@ -86,7 +86,6 @@ func runRequests(url string, requests int, concurrency int) {
 	fmt.Printf("Quantidade de requests com status HTTP 200: %d\n", total200)
 
 	if totalOther > 0 {
-		fmt.Println("Distribuição de outros códigos de status HTTP:")
 		for code, count := range statusCodes {
 			fmt.Printf("  Status %d: %d requisições\n", code, count)
 		}
