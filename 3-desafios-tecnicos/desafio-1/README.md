@@ -102,3 +102,7 @@ Nos dois casos acima, as próximas requisições poderão ser realizadas somente
         docker exec -it app-prod bash
         go test ./...
 
+## Correção
+
+- A forma correta de rodar era: docker-compose up app-prod.
+- De qualquer forma, fiz o ajuste e agora funcionará da seguinte forma: docker-compose up
